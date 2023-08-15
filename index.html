@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+  <link rel="stylesheet" href="https://fonts.google.com/specimen/Poppins?query=Poppins">
+  
+  
+  <title>Age calculator app</title>
+  <style>
+    
+    html {
+      background: hsl(0, 0%, 86%);
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      font-family: 'poppins', sans-serif;
+    }
+    .card {
+      padding-top: 35px;
+      background: rgb(255, 255, 255);
+      border: 1px;
+      border-color: hsl(0, 1%, 44%);
+      border-style: solid;
+      margin: auto;
+      width: 450px;
+      height: 300px;
+      display: block;
+      border-radius: 12px;
+      border-bottom-right-radius: 110px;
+    }
+
+    .fecha {
+      display: flex;
+      font-weight: bold;
+      font-size: 12px;
+      
+      
+    }
+    label {
+      margin-left: 30px;
+      
+    }
+    input {
+      width: 60px;
+      border-radius: 5px;
+      padding: 10px;
+      margin: 10px;
+      font-weight: bold;
+      font-family: 'poppins', sans-serif;
+      text-align: left;
+      margin-left: 30px;
+      border-style: solid;
+      border-color: rgb(230, 226, 226);    
+      
+    }
+    .dibujo {
+      
+    }
+    hr {
+      width: 70%;
+      
+    }
+    img {
+      float: right;
+      border-radius: 50px;
+      border-style: solid;
+      background: hsl(259, 100%, 65%);
+      border-color: hsl(259, 100%, 65%);
+      margin-right: 30px;
+      width: 40px;
+      
+    }
+    li {
+      list-style-type: none;
+      font-style: italic;
+      font-weight: 700;
+      font-size: 40px;
+
+    }
+    ul {
+      margin-top: 50px;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div class="card">
+        <div class="fecha">
+            <div><label for="day">DAY</label><br>
+              <input type="number" id="day" onkeyup="updateDate()">
+            </div>
+            <div><label for="day">MONTH</label><br>
+              <input type="number" id="month" onkeyup="updateDate()">
+            </div>
+            <div><label for="day">YEAR</label><br>
+              <input type="number" id="year" onkeyup="updateDate()">
+            </div>
+        </div>
+        <div class="dibujo">
+          <img src="/assets/images/icon-arrow.svg" alt="">
+          <hr>
+        </div>  
+          <ul>
+            <li> <span id="yearOutput"></span> years</li>
+            <li> <span id="monthOutput"></span> months</li>
+            <li> <span id="dayOutput"></span> days</li>
+          </ul>
+      </div>
+    </header>
+  </div>
+  <script>
+    function updateDate() {
+        var dayInput = document.getElementById("day");
+        var monthInput = document.getElementById("month");
+        var yearInput = document.getElementById("year");
+
+        var dayOutput = document.getElementById("dayOutput");
+        var monthOutput = document.getElementById("monthOutput");
+        var yearOutput = document.getElementById("yearOutput");
+
+        var currentDate = new Date();
+        var currentYear = currentDate.getFullYear();
+        var currentMonth = currentDate.getMonth() + 1; // Adding 1 because getMonth() returns zero-based index
+        var currentDay = currentDate.getDate();
+
+        var birthYear = parseInt(yearInput.value);
+        var birthMonth = parseInt(monthInput.value);
+        var birthDay = parseInt(dayInput.value);
+
+        if (
+        birthYear > currentYear
+        || 
+        (
+        	birthYear === currentYear
+          && birthMonth > currentMonth
+        )
+        ||
+        (birthYear === currentYear && birthMonth === currentMonth && birthDay > currentDay)) {
+            alert("Invalid date of birth!");
+            dayOutput.textContent = "";
+            monthOutput.textContent = "";
+            yearOutput.textContent = "";
+            return;
+        }
+
+        var years = currentYear - birthYear;
+        var months = currentMonth - birthMonth;
+        var days = currentDay - birthDay;
+
+        if (months < 0) {
+            years--;
+            months += 12;
+        }
+
+        if (days < 0) {
+            months--;
+            var lastMonthDate = new Date(currentYear, currentMonth - 1, 0).getDate();
+            days += lastMonthDate;
+        }
+
+        dayOutput.textContent = days;
+        monthOutput.textContent = months;
+        yearOutput.textContent = years;
+    }
+  </script>
+</body>
+</html>
